@@ -1,0 +1,22 @@
+#load("//bazel:defs.bzl", "otp_header_parse", "picotool_binary_data_header")
+
+package(default_visibility = ["//visibility:public"])
+
+#PICOTOOL_SDK_VERSION_STRING = module_version() if module_version() != None else "0.0.1-WORKSPACE"
+
+cc_binary(
+    name = "test",
+    srcs = [
+        "test.cpp",
+    ],
+    linkopts = [
+    #    "-ludev",
+    ],
+    dynamic_deps = select({
+        "@rules_libusb//:force_dynamic_linkage_enabled": ["@libusb//:libusb_dynamic"],
+        "//conditions:default": [],
+    }),
+    deps = [
+        "@libusb",
+    ],
+)
