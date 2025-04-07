@@ -1,14 +1,14 @@
+#include <iostream>
 #include "libusb.h"
 
 int main(int argc, char **argv) {
-#if HAS_LIBUSB
     libusb_context *ctx = nullptr;
 
-    if (libusb_init(&ctx)) {
+    int err = libusb_init(&ctx);
+    if (err != 0) {
+        std::cerr << "libusb_init returned " << err << "\n";
         return 1;
     }
+    std::cerr << "libusb_init returned zero\n";
     return 0;
-#else
-    return 1;
-#endif
 }
